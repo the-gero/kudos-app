@@ -72,4 +72,6 @@ pnpm dev
 
 - The project uses SQLite for local development.
 - You can manually seed users or organizations from the Django admin or with scripts.
+- Dummy accounts: johndoe@email.com,janedoe@gmail.com
+- Password: password123
 
