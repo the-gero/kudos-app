@@ -6,7 +6,7 @@ class User(BaseModel):
     password = models.CharField(max_length=100)
 
     def kudos_left_this_week(self):
-        from .models import Kudo
+        from .kudomodel import Kudo
         from django.utils import timezone
         from datetime import timedelta
 
