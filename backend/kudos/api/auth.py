@@ -7,7 +7,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         data = super().validate(attrs)
         data.update({
             'user_id': str(self.user.id),
-            'username': self.user.username,
+            'name': self.user.name,
             'organization_id': str(self.user.organization_id),
         })
         return data
