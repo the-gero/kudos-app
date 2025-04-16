@@ -1,8 +1,5 @@
 # kudos/views/auth.py (continued)
 from ..api.decorators.jwt_required import token_required
-import jwt
-import datetime
-from django.conf import settings
 from rest_framework.decorators import api_view
 from ..models.usermodel import User
 from ..models.kudomodel import Kudo
@@ -23,21 +20,16 @@ def send_kudos_view(request):
             kudos = Kudo( from_user=user, to_user=receiver, message=kudos_text,organization_id=user.organization_id,created_by=str(user._id))
             kudos.save()
             return JsonResponse({'message': f"Kudos was sent to {receiver.name}"})
-        
+        else:
+            return JsonResponse({'error': f"Oops! Ran out of kudos!"}, status=400)
             
-        
     except User.DoesNotExist:
         return JsonResponse({'error': 'Sender or receiver does not exist'}, status=401)
-
-    
-    return JsonResponse({'message':"Something went wrong"})
 
 @api_view(['GET'])
 @token_required
 def get_kudos(request):
     user = request.user
-
-    # Get and serialize sent kudos
     sent_kudos = user.sent_kudos.select_related('to_user').all()
     sent_data = [
         {
@@ -47,8 +39,6 @@ def get_kudos(request):
         }
         for kudo in sent_kudos
     ]
-
-    # Get and serialize received kudos
     received_kudos = user.received_kudos.select_related('from_user').all()
     received_data = [
         {

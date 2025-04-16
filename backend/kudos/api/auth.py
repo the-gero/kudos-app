@@ -43,3 +43,11 @@ def me_view(request):
         'organization_id': str(user.organization_id),
     }
     return JsonResponse({'user': user_data})
+
+@api_view(['GET'])
+@token_required
+def get_users_by_org(request):
+    user = request.user
+    users = User.objects.filter(organization_id=user.organization_id).exclude(_id=user._id)
+    user_list = users.values('name', 'email', '_id')
+    return JsonResponse(list(user_list), safe=False)
