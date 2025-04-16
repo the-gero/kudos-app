@@ -1,6 +1,6 @@
 from django.db import models
 
-from models.basemodel import BaseModel
+from .basemodel import BaseModel
 from .usermodel import User
 
 
